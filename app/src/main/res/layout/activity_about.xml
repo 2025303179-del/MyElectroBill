@@ -135,9 +135,12 @@
                     android:text="© 2026 All Rights Reserved"/>
 
                 <TextView
+                    android:id="@+id/textViewGithub"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="GitHub Repository:"/>
+                    android:text="GitHub Repository: https://github.com/2025303179-del/MyElectroBill"
+                    android:autoLink="web"
+                    android:textColor="#1976D2"/>
 
             </LinearLayout>
 
