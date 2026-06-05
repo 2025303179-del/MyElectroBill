@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="titleText" type="id" />
+    <item name="labelId" type="id" />
+    <item name="editTextId" type="id" />
+    <item name="labelName" type="id" />
+    <item name="editTextName" type="id" />
+    <item name="labelDob" type="id" />
+    <item name="editTextDob" type="id" />
+    <item name="labelGender" type="id" />
+    <item name="editTextGender" type="id" />
+    <item name="labelAddress" type="id" />
+    <item name="editTextAddress" type="id" />
+    <item name="buttonSave" type="id" />
+    <item name="buttonBack" type="id" />
+    <item name="buttonUpdate" type="id" />
+    <item name="textViewId" type="id" />
+    <item name="textViewName" type="id" />
+    <item name="textViewDob" type="id" />
+    <item name="textViewGender" type="id" />
+    <item name="textViewAddress" type="id" />
+</resources>
