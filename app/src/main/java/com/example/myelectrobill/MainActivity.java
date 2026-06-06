@@ -21,6 +21,7 @@ import android.view.Menu;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
     String[] register;
     String[] id;
+    TextView textViewHint;
     ListView ListView01;
     Menu menu;
     //access Database
@@ -45,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        textViewHint = findViewById(R.id.textViewHint);
 
         setSupportActionBar(binding.toolbar);
 
@@ -82,6 +86,12 @@ public class MainActivity extends AppCompatActivity {
         id = new String[cursor.getCount()];
         cursor.moveToFirst();
 
+        if(cursor.getCount() == 0){
+            textViewHint.setVisibility(View.VISIBLE);
+        }
+        else {textViewHint.setVisibility(View.GONE);
+        }
+
         ListView01 = (ListView) findViewById(R.id.listView1);
         ListView01.setAdapter(new ArrayAdapter(this, android.R.layout.simple_list_item_1, register));
         ListView01.setSelected(true);
@@ -97,41 +107,42 @@ public class MainActivity extends AppCompatActivity {
                             cursor.getString(2) + " - RM " +
                             String.format("%.2f", cursor.getDouble(6));
 
-            //create alert dialog menu here
-            ListView01.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-                public void onItemClick(AdapterView arg0, View arg1, int arg2, long arg3) {
-                    final String selectedId = id[arg2]; //.getItemAtPosition(arg2).toString();
-                    final CharSequence[] dialogitem = {"View Calculate Bill", "Update Calculate Bill", "Delete Calculate Bill"};
-                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                    builder.setTitle("Selection");
-                    builder.setItems(dialogitem, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int item) {
-                            switch (item) {
-                                case 0:
-                                    Intent i = new Intent(getApplicationContext(), ViewCalculateBillActivity.class);
-                                    i.putExtra("no", selectedId);
-                                    startActivity(i);
-                                    break;
-                                case 1:
-                                    Intent in = new Intent(getApplicationContext(), UpdateCalculateBillActivity.class);
-                                    in.putExtra("no", selectedId);
-                                    startActivity(in);
-                                    break;
-                                case 2:
-                                    SQLiteDatabase db = dbcenter.getWritableDatabase();
-                                    db.execSQL("delete from bill where no = '" + selectedId + "'");
-                                    Toast.makeText(getApplicationContext(), "Data Successfully Removed", Toast.LENGTH_SHORT).show();
-                                    RefreshList();
-                                    break;
-                            }
-                        }
-                    });
-                    builder.create().show();
-                }
-            });
             ((ArrayAdapter) ListView01.getAdapter()).notifyDataSetInvalidated();
         }
+
+        //create alert dialog menu here
+        ListView01.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            public void onItemClick(AdapterView arg0, View arg1, int arg2, long arg3) {
+                final String selectedId = id[arg2]; //.getItemAtPosition(arg2).toString();
+                final CharSequence[] dialogitem = {"View Calculate Bill", "Update Calculate Bill", "Delete Calculate Bill"};
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("Selection");
+                builder.setItems(dialogitem, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int item) {
+                        switch (item) {
+                            case 0:
+                                Intent i = new Intent(getApplicationContext(), ViewCalculateBillActivity.class);
+                                i.putExtra("no", selectedId);
+                                startActivity(i);
+                                break;
+                            case 1:
+                                Intent in = new Intent(getApplicationContext(), UpdateCalculateBillActivity.class);
+                                in.putExtra("no", selectedId);
+                                startActivity(in);
+                                break;
+                            case 2:
+                                SQLiteDatabase db = dbcenter.getWritableDatabase();
+                                db.execSQL("delete from bill where no = '" + selectedId + "'");
+                                Toast.makeText(getApplicationContext(), "Data Successfully Removed", Toast.LENGTH_SHORT).show();
+                                RefreshList();
+                                break;
+                        }
+                    }
+                });
+                builder.create().show();
+            }
+        });
 
     }
 }
